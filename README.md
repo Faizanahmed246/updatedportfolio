@@ -1,5 +1,3 @@
-# updatedportfolio
-
 # 🌐 Personal Portfolio
 
 This is my personal portfolio website built using modern web technologies. It showcases my skills, services, projects, and contact information.
