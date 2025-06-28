@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faizan Ahmed</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    
+</head>
+<body>
+<div id="header">
+    <div class="container">
+        <nav>
+            <img src="images/logo.png" class="logo">
+            <ul id="sidemenu">
+                <li><a href="#header">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <i class="fas fa-times" onclick="closemenu()"></i>
+            </ul>
+            <i class="fas fa-bars" onclick="openmenu()"></i>
+        </nav>
+        <div class="header-text">
+            <p>MERN STACK DEVELOPER/AI-ML LEARNER</p>
+            <h1>Hi, I'm <span>FAIZAN AHMED</span><br>FROM HYD</h1>
+        </div>
+    </div>
+</div>
+<!-- -----------about---------- -->
+<div id="about">
+    <div class="container">
+        <div class="row">
+            <div class="about-col-1">
+                <img src="images/user.png">
+            </div>
+            <div class="about-col-2">
+                <h1 class="sub-title">About Me</h1>
+                <p> I’m a passionate MERN Stack Developer with a growing interest in Artificial Intelligence and Machine Learning. I specialize in building dynamic, responsive, and scalable web applications using MongoDB, Express.js, React.js, and Node.js.</br>Currently, I’m expanding my skills in AI/ML—exploring areas like data analysis, machine learning models, and intelligent automation. I enjoy turning ideas into real-world solutions through code and continuous learning.</br>Let’s connect and build something impactful!</p>
+                <div class="tab-titles">
+                    <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                    <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                    <p class="tab-links" onclick="opentab('education')">Education</p>
+                </div>
+                <div class="tab-contents active-tab" id="skills">
+                    <ul>
+                        <li><span>UI/UX</span><br>Designing Web/App interfaces</li>
+                        <li><span>Web Development</span><br>HTML CSS JAVASCIRPT MYSQL REACT.JS NODE.JS EXPRESS.JS</li>
+                        <li><span>AI-ML</span><br>Python, NumPy, Pandas, Scikit-learn, TensorFlow, OpenCV2</li>
+                    </ul>
+                </div>
+                <div class="tab-contents" id="experience">
+                    <ul>
+                        <li><span>June 2025 - present</span><br>AI-ML Intern at iHub-Data IIIT-Hyderabad</li>
+                        <li><span>May  2024 - Oct 2024</span><br>Student Trainee(AIML) at iHub-Data IIIT-Hyderabad</li>
+                        <li><span>June 2024 - June 2025</span><br>E-cell Social Media Lead ISLEC</li>
+                        <li><span>Jan  2025 - Mar 2025</span><br>Google AI-ML Virtual Internship</li>
+                    </ul>
+                </div>
+                <div class="tab-contents" id="education">
+                    <ul>
+                        <li><span>2021-2025</span><br>Bachelor of Engineering(CSE) ISLEC.</li>
+                        <li><span>2019-2021</span><br>Intermediate from Narayana Jr College.</li>
+                        <li><span>2007-2019</span><br>SSC from St. Andrews High School.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ---------services---------------- -->
+<div id="services">
+    <div class="container">
+        <h1 class="sub-title">My Services</h1>
+        <div class="services-list">
+            <div>
+                <i class="fas fa-code"></i>
+                <h2>Web Design</h2>
+                <p>I design and develop clean, modern, and responsive websites tailored to your brand and needs.</br>What I offer:</br>
+                    <ol>Responsive layouts for mobile & desktop</ol>
+                    <ol>Landing pages, personal portfolios, blogs, and business sites</ol>
+                    <ol>Modern tech: HTML, CSS, Tailwind, React.js</ol>
+                    <ol>SEO-friendly and performance-optimized designs</ol>
+                </p>
+                <a href="#contact">Learn more</a>
+            </div>
+            <div>
+                <i class="fas fa-crop-alt"></i>
+                <h2>UI/UX Design</h2>
+                <p>I craft intuitive, visually appealing, and user-friendly interfaces that enhance user experience and engagement.</br>What I offer:</p>
+                <ol>Custom UI design using Figma, Adobe XD, or Canva</ol>
+                <ol>User-centered design with focus on accessibility and simplicity</ol>
+                <ol>Wireframes, mockups, and high-fidelity prototypes</ol>
+                <ol>Design systems and style guides for consistency</ol>
+                <a href="#contact">Learn more</a>
+            </div>
+            <div>
+              <i class="fa-solid fa-robot"></i>
+                <h2>Machine Learning</h2>
+                <p>I build intelligent systems using machine learning to automate tasks, uncover insights, and improve decision-making.</br>What I offer:</p>
+                <ol>Predictive modeling (regression, classification)</ol>
+                <ol>NLP tasks: sentiment analysis, text classification, chatbots</ol>
+                <ol>Computer vision: image classification, emotion recognition, object detection</ol>
+                <ol>Model training, tuning, and deployment</ol>
+                <ol>Data preprocessing and exploratory data analysis (EDA)</ol>
+                <ol>Tools: Python, scikit-learn, TensorFlow, Keras, Pandas, OpenCV</ol>
+                <a href="#contact">Learn more</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ----------portfolio------------ -->
+<div id="portfolio">
+    <div class="container">
+        <h1 class="sub-title">My Work</h1>
+        <div class="work-list">
+            <div class="work">
+                <img src="images/work-1.png">
+                <div class="layer">
+                    <h3>E-Learning Platform</h3>
+                    <p>This website offers free resources and help you in learning.</p>
+                    <a href="https://ai-cademy-ten.vercel.app/"><i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="images/work-2.png">
+                <div class="layer">
+                    <h3>Licence Plate Detection</h3>
+                    <p>This app helps to detect licence plate of vehicles.</p>
+                    <a href="#"><i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="images/work-3.png">
+                <div class="layer">
+                    <h3>Depression Detection and Emotion Recognition</h3>
+                    <p>Helps in detecting depression and emotions of users online.</p>
+                    <a href="#"><i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="btn">See more</a>
+    </div>
+</div>
+<!-- ----------contact------------- -->
+<div id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="contact-left">
+                <h1 class="sub-title">Contact Me</h1>
+                <p><i class="fas fa-paper-plane"></i> faizanahmedd246@gmail.com</p>
+                <p><i class="fas fa-phone-square-alt"></i> 9908988785</p>
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/share/16UPspeYhZ/"><i class="fab fa-facebook"></i></a>
+                    <a href="https://x.com/faizanahm246?t=csatmuBDfNMhwBwtuEYf6A&s=09"><i class="fab fa-twitter-square"></i></a>
+                    <a href="https://www.instagram.com/faizan_ahm24x?igsh=Zzk1bDFvbDZuZ3d1"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/mohammed-faizan-ahmed-510463233?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"><i class="fab fa-linkedin"></i></a>
+                </div>
+                <a href="images/my-cv.pdf" download class="btn btn2">Download CV</a>
+            </div>
+            <div class="contact-right">
+                <form name="submit-to-google-sheet">
+                    <input type="text" name="Name" placeholder="Your Name" required>
+                    <input type="email" name="Email" placeholder="Your Email" required>
+                    <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
+                    <button type="submit" class="btn btn2">Submit</button>
+                </form>
+                <span id="msg"></span>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>Copyright © Faizan Ahmed. Made wtih <i class="fas fa-heart"></i> by <a href="https://www.youtube.com/@Faizancodes246">Faizan Codes</a></p>
+    </div>
+</div>
+
+
+
+<script>
+
+    var tablinks = document.getElementsByClassName("tab-links");
+    var tabcontents = document.getElementsByClassName("tab-contents");
+
+    function opentab(tabname){
+        for(tablink of tablinks){
+            tablink.classList.remove("active-link");
+        }
+        for(tabcontent of tabcontents){
+            tabcontent.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+    }
+
+</script>
+
+<script>
+
+    var sidemeu = document.getElementById("sidemenu");
+
+    function openmenu(){
+        sidemeu.style.right = "0";
+    }
+    function closemenu(){
+        sidemeu.style.right = "-200px";
+    }
+
+</script>
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxTq5tTFaLLA7tnfsp_m-mmh1yWl9mVtZsSRsdwvFfDovl-toOD4TXOUgiaYvaC4_-4/exec' 
+    const form = document.forms['submit-to-google-sheet']
+    const msg = document.getElementById("msg")
+  
+    form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+            msg.innerHTML = "Message sent successfully"
+            setTimeout(function(){
+                msg.innerHTML = ""
+            },5000)
+            form.reset()
+        })
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
+</body>
+</html>
