@@ -10,6 +10,525 @@
     
 </head>
 
+<div class="chat-icon" onclick="toggleChat()">Z</div>
+<div class="chat-popup" id="chatPopup">
+    <iframe width="100%" height="100%" frameborder="0"></iframe>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zan AI - Your Portfolio Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            height: 600px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-header {
+            padding: 20px 30px;
+            background: rgba(0, 0, 0, 0.6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .ai-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #333333 0%, #666666 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .chat-title {
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .chat-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            opacity: 0;
+            animation: slideUp 0.3s ease forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .message.ai .message-avatar {
+            background: linear-gradient(135deg, #333333 0%, #666666 100%);
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #444444 0%, #777777 100%);
+        }
+
+        .message-content {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 20px;
+            border-radius: 18px;
+            color: white;
+            max-width: 70%;
+            line-height: 1.5;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .message.user .message-content {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .chat-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .chat-input:focus {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: scale(1.02);
+        }
+
+        .send-button {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #333333 0%, #666666 100%);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .send-button:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #444444 0%, #777777 100%);
+            box-shadow: 0 10px 30px rgba(100, 100, 100, 0.3);
+        }
+
+        .suggestions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .suggestion {
+            padding: 8px 16px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .suggestion:hover {
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 15px 20px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                height: 90vh;
+                margin: 20px;
+            }
+            
+            .message-content {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+    
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="ai-avatar">Z</div>
+            <div>
+                <div class="chat-title">Zan AI</div>
+                <div class="chat-subtitle">Your Personal Portfolio Assistant</div>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai">
+                <div class="message-avatar">Z</div>
+                <div class="message-content">
+                    👋 Hello! I'm Zan AI, your personal portfolio assistant. I know everything about this portfolio owner and I'm here to answer any questions you might have! Ask me about education, experience, skills, projects, or anything else you'd like to know.
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <div class="suggestions" id="suggestions">
+                <div class="suggestion">What's your educational background?</div>
+                <div class="suggestion">Tell me about your skills</div>
+                <div class="suggestion">What projects have you worked on?</div>
+                <div class="suggestion">How can I contact you?</div>
+            </div>
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything about this portfolio...">
+                <button class="send-button" id="sendButton">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Knowledge base with 40+ questions and answers
+        const knowledgeBase = {
+            // Contact Information
+            "contact": "You can reach me at faizanahmedd246@gmail.com or connect with me on LinkedIn at https://www.linkedin.com/in/faizanahmcodes/. I'm always open to discussing new opportunities!",
+            "email": "My email address is faizanahmedd246@gmail.com  Feel free to reach out anytime!",
+            "phone": "9908988785.",
+            "linkedin": "https://www.linkedin.com/in/faizanahmcodes/ I regularly share updates about my projects and professional journey there.",
+            "location": "I'm currently based in [Hyderabad, India].",
+            
+            // Education
+            "education": "I hold a [B.E CSE] from [Osmania University], where I graduated in [2025] with a focus on [WEB DEV/AIML].",
+            "university": "I studied at [Osmania University], which provided me with a strong foundation in [AIML] and hands-on experience through various projects.",
+            "degree": "I have a [B.E CSE] with specialization in [AIML]. My coursework included [WEB DEV, AIML ].",
+            "graduation": "I graduated in [2025] from [Osmania University]. It was an incredible journey that shaped my technical and analytical skills.",
+            "gpa": "I maintained a strong academic record throughout my studies 8.01, focusing particularly on [DSA, AIML, OS] where I excelled.",
+            
+            // Skills
+            "skills": "I'm proficient in [MERN STACK DEVELOPMENT AND AIML], experienced with [MERN STACK], and skilled in [UI/UX]. I also have strong abilities in problem-solving, project management, and team collaboration.",
+            "programming": "I work with languages like [JAVA AND PYTHON] and have experience in both frontend and backend development. I'm always eager to learn new technologies!",
+            "languages": "I'm fluent in [HINDI, ENGLISH, URDU]. This helps me collaborate effectively with diverse teams and clients.",
+            "frameworks": "I have hands-on experience with [MERN STACK DEV AND ML MODELS] and stay updated with the latest developments in the tech stack.",
+            "tools": "I regularly use [Development ToolS] to streamline my workflow and deliver quality results.",
+            
+            // Experience
+            "experience": "I worked as Research Intern at IIIT-HYDERABAD",
+            "work": "My professional journey includes roles at [RESEARCH INTERN] where I've contributed to [TRAINING ML MODELS].",
+            "internship": "During my internships at [IIIT-HYDERABAD], I gained valuable experience in [AI & ML].",
+            "freelance": "I've also taken on freelance projects that allowed me to work with clients from various industries, enhancing my adaptability and client communication skills.",
+            
+            // Projects
+            "projects": "I've worked on several exciting projects including [PORTFOLIOS, E-COMMERCE WEBSITES]. Each project taught me something new and helped me refine my skills in [MERN STACK].",
+            "portfolio": "My portfolio showcases a range of projects demonstrating my abilities. Each project reflects my passion for creating impactful solutions.",
+            "github": "You can check out my code and projects on GitHub at https://github.com/Faizanahmed246. I regularly contribute to open source and share my personal projects there.",
+            "demo": "I have live demos available for most of my projects. Would you like me to tell you about any specific project?",
+            
+            // Personal
+            "about": "I'm a passionate [MERN STACK WEB DEV] who loves creating innovative solutions and learning new technologies. I believe in the power of technology to make a positive impact.",
+            "interests": "Outside of work, I enjoy [GAMING, COOKING, SPORTS, DRAWING ..ETC]. These activities keep me creative and help me approach problems from different perspectives.",
+            "motivation": "I'm driven by the opportunity to solve complex problems and create solutions that can make a real difference. Continuous learning and growth are very important to me.",
+            "goals": "My goal is to continue growing as a [DEV] while contributing to meaningful projects that have a positive impact on users and society.",
+            
+            // Technical
+            "database": "I have experience working with both SQL databases like MySQL and PostgreSQL, and NoSQL solutions like MongoDB and Firebase Firestore, choosing the right tool for each project's needs.",
+            "cloud": "I'm familiar with cloud platforms like [AWS/Azure/GCP] and have deployed applications using various cloud services and architectures.",
+            "api": "I've designed and developed RESTful APIs and have experience with GraphQL. I understand the importance of well-documented, scalable API design.",
+            "testing": "I believe in thorough testing and use frameworks like Selenium, JUnit, and PyTest to ensure code quality and reliability.",
+            
+            // Career
+            "career": "I'm looking for opportunities where I can contribute my skills while continuing to learn and grow. I'm particularly interested in [MERN AND AIML].",
+            "remote": "I'm comfortable with remote work and have experience collaborating with distributed teams using various communication and project management tools.",
+            "salary": "I'm open to discussing compensation based on the role, responsibilities, and growth opportunities. I believe in fair compensation that reflects the value I bring.",
+            "availability": "I'm currently [available immediately/available] and excited to discuss new opportunities!",
+            
+            // Achievements
+            "achievements": "Some of my key achievements include [PODIUM IN IIIT HACKATHON]. I'm proud of how these experiences have contributed to my professional growth.",
+            "awards": "I've been recognized for [MY WORK IN STUDIES AND SPORTS] which motivates me to continue striving for excellence in my work.",
+            "certifications": "I hold certifications from platforms like Udemy, Google, Ihub-IIIT, Apna College and continuously update my skills through online courses and workshops.",
+            
+            // Collaboration
+            "teamwork": "I thrive in collaborative environments and have experience working with cross-functional teams including designers, product managers, and other developers.",
+            "communication": "Clear communication is crucial to project success. I make sure to keep all stakeholders informed and aligned throughout the development process.",
+            "leadership": "I've led [5-6] projects where I coordinated team efforts, managed timelines, and ensured delivery of quality solutions.",
+            
+            // Fun Facts
+            "fun fact": "Here's something interesting: [I'm multi talented]! It's one of the things that makes me unique.",
+            "hobbies": "In my free time, I enjoy [Gaming, painting, reading books, sports..etc]. These activities help me stay creative and bring fresh perspectives to my work.",
+            "coffee": "I'm definitely powered by coffee! ☕ It's my fuel for those late-night coding sessions and early morning stand-ups.",
+            
+            // Default responses
+            "default": "That's a great question! While I don't have specific information about that, I'd recommend reaching out directly via email at faizanahmedd246@gmail.com for more detailed information.",
+            "thanks": "You're very welcome! I'm here to help you learn more about this portfolio. Feel free to ask anything else!",
+            "hi": "Hello! Great to meet you! I'm excited to tell you all about this amazing portfolio. What would you like to know?"
+        };
+
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const suggestions = document.getElementById('suggestions');
+
+        // Predefined suggestions that rotate
+        const suggestionsList = [
+            "What's your educational background?",
+            "Tell me about your skills",
+            "What projects have you worked on?",
+            "How can I contact you?",
+            "What programming languages do you know?",
+            "Do you have any certifications?",
+            "What's your work experience?",
+            "Are you available for hire?",
+            "Tell me about your achievements",
+            "What are your hobbies?",
+            "Can you work remotely?",
+            "What's your GitHub profile?"
+        ];
+
+        function getAIResponse(userInput) {
+            const input = userInput.toLowerCase().trim();
+            
+            // Simple keyword matching
+            for (const [key, response] of Object.entries(knowledgeBase)) {
+                if (input.includes(key) || 
+                    (key === 'hi' && (input.includes('hello') || input.includes('hey'))) ||
+                    (key === 'thanks' && (input.includes('thank') || input.includes('appreciate')))) {
+                    return response;
+                }
+            }
+            
+            // Check for more complex patterns
+            if (input.includes('who are you') || input.includes('about you')) {
+                return knowledgeBase.about;
+            }
+            
+            if (input.includes('hire') || input.includes('job') || input.includes('work')) {
+                return knowledgeBase.career;
+            }
+            
+            return knowledgeBase.default;
+        }
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = isUser ? 'U' : 'Z';
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.textContent = content;
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(messageContent);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ai typing';
+            typingDiv.id = 'typing-indicator';
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = 'Z';
+            
+            const typingContent = document.createElement('div');
+            typingContent.className = 'message-content typing-indicator';
+            
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'typing-dot';
+                typingContent.appendChild(dot);
+            }
+            
+            typingDiv.appendChild(avatar);
+            typingDiv.appendChild(typingContent);
+            
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typing = document.getElementById('typing-indicator');
+            if (typing) {
+                typing.remove();
+            }
+        }
+
+        function updateSuggestions() {
+            const shuffled = [...suggestionsList].sort(() => 0.5 - Math.random());
+            const selectedSuggestions = shuffled.slice(0, 4);
+            
+            suggestions.innerHTML = '';
+            selectedSuggestions.forEach(suggestion => {
+                const suggestionDiv = document.createElement('div');
+                suggestionDiv.className = 'suggestion';
+                suggestionDiv.textContent = suggestion;
+                suggestionDiv.addEventListener('click', () => {
+                    chatInput.value = suggestion;
+                    sendMessage();
+                });
+                suggestions.appendChild(suggestionDiv);
+            });
+        }
+
+        function sendMessage() {
+            const userInput = chatInput.value.trim();
+            if (!userInput) return;
+            
+            addMessage(userInput, true);
+            chatInput.value = '';
+            
+            showTypingIndicator();
+            
+            setTimeout(() => {
+                removeTypingIndicator();
+                const response = getAIResponse(userInput);
+                addMessage(response);
+                updateSuggestions();
+            }, 1000 + Math.random() * 1000);
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Add click handlers for initial suggestions
+        suggestions.querySelectorAll('.suggestion').forEach(suggestion => {
+            suggestion.addEventListener('click', () => {
+                chatInput.value = suggestion.textContent;
+                sendMessage();
+            });
+        });
+
+        // Initialize with random suggestions
+        updateSuggestions();
+    </script>
+</div>
+
 <div id="header">
     <div class="container">
         <nav>
@@ -235,3 +754,4 @@ function toggleChat() {
   </script>
 </body>
 </html>
+
