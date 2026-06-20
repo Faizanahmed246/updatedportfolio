@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     
 </head>
+<body>
+
+<div class="chat-icon" onclick="toggleChat()">Z</div>
+
+<div class="chat-popup" id="chatPopup">
+    <iframe src="zan-ai.html"></iframe>
+</div>
 
 <div class="chat-icon" onclick="toggleChat()">Z</div>
 <div class="chat-popup" id="chatPopup">
@@ -238,5 +245,16 @@ function toggleChat() {
         .catch(error => console.error('Error!', error.message))
     })
   </script>
+<script>
+function toggleChat() {
+    const popup = document.getElementById("chatPopup");
+
+    if (popup.style.display === "block") {
+        popup.style.display = "none";
+    } else {
+        popup.style.display = "block";
+    }
+}
+</script>
 </body>
 </html>
