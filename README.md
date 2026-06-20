@@ -22,6 +22,9 @@ This is my personal portfolio website built using modern web technologies. It sh
 
 [View Live Site](https://faizanahmedd.vercel.app/)
 
+View my starup Zannsolutions
+[View Live Site](https://zannsolutions.vercel.app/)
+
 
 ## 📬 Contact
 
